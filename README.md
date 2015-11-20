@@ -13,8 +13,8 @@ First install the stem library:
 
 Then clone this project and cd into the directory:
 
-git clone https://github.com/mon-man/tor_stats
-cd tor_stats
+    `git clone https://github.com/mono-man/torstats.git`
+    `cd tor_stats`
 
 ## Usage
 
