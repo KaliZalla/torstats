@@ -10,6 +10,19 @@ AuthorityCnt = 0
 RunningCnt = 0
 
 versions = dict()
+releases = dict()
+
+# get release history
+
+with open("tor_release_history.txt") as f:
+    lines = f.readlines()
+    for line in lines:
+        end = line.find(" ")
+        start = line[:end].rfind("/") + 1
+        date = line[end+1:].strip()
+
+        releases[line[start:end].replace("tor-", "")] = date
+
 
 try:
   for desc in downloader.get_consensus().run():
@@ -31,15 +44,25 @@ except Exception as exc:
 
 # print out current stats
 
+print
 print "Num HSDirs:        ", HSDirCnt
 print "Num Authorities    ", AuthorityCnt
 print "Total relays:      ", relayCnt
 print "Running relays:    ", RunningCnt
 print
-print "%17s    |    %s" % ("Versions", "Count")
-print "%17s--------------" % ("--------")
+print "%17s    |    %10s    |    %17s" % ("Versions", "Count", "Release date")
+print "-" * 80
 for k in sorted(versions.keys()):
-    print "%17s    |    %d" % (k, versions[k]) # 17
+    key_string = k.__str__()
+    date_string = ''
+    try:
+        date_string = releases[key_string]
+    except Exception:
+        date_string = "Unknown"
+
+    print "%17s    |    %10d    |    %17s" % (k, versions[k], date_string) # 17
+
+print
 
 
 
